@@ -11,7 +11,7 @@ select{background:#30243e;color:#fff;border:1px solid #5c4778;border-radius:9px;
 <div class="status" id="status" role="status" aria-live="polite">Ready. Save a draft file to keep a portable backup.</div>
 <form id="editor" autocomplete="off"></form>
 <div class="totals"><section><div class="eyebrow">OVERALL COUNT</div><p id="total"></p><p class="hint">Sections exported to the selected site</p></section><section><div class="eyebrow">ACTIVE CONTEXT COUNT</div><p id="activeTotal"></p><p class="hint">Name, Greeting, Personality, Scenario and Example Conversations</p></section></div><div class="footer"><div class="export-controls"><button class="primary" id="exportBottom">Generate .json</button></div></div><p class="hint" id="siteNote"></p>
-<details><summary>Export details &amp; JSON preview</summary><p class="hint">LiL uses char_intro for short bio and char_persona for personality. LusyChat: short bio → description; personality → personality. CrushOn / CraveU: introduction → personality; personality → description. CrushOn and CraveU hide Example Conversations and export an empty example field. Changing the destination preserves your editor text. Over-limit fields block export until shortened. Token counts are rough estimates using a character/word formula, not an exact model tokenizer. Totals include the selected site’s supported fields; sites may send different content to their AI.</p><pre id="preview"></pre></details>
+<details><summary>Export details &amp; JSON preview</summary><p class="hint">LiL includes standard importer fields plus native short-bio and personality fields. LusyChat: short bio → description; personality → personality. CrushOn / CraveU: introduction → personality; personality → description. CrushOn and CraveU hide Example Conversations and export an empty example field. Changing the destination preserves your editor text. Over-limit fields block export until shortened. Token counts are rough estimates using a character/word formula, not an exact model tokenizer. Totals include the selected site’s supported fields; sites may send different content to their AI.</p><pre id="preview"></pre></details>
 <details><summary>Using this app</summary><p>Open this HTML file in your browser, enter your character, then choose Generate .json. Upload the downloaded JSON to your bot site's character importer.</p><p>The current draft is automatically saved in this browser when storage is available. Moving the HTML file, changing browsers or clearing browser data can lose that copy. Use Save draft for a reliable file backup.</p><p>JSON imports detect this app’s mapping marker, known filename suffixes and legacy fields automatically. Unmarked files default to LusyChat mapping; always check the loaded introduction and personality. Draft files from either older generator load correctly regardless of source. Load JSON / draft accepts flat character JSON and V2-style cards. Imported files only load the six editor fields; other metadata is not retained. If an old export has the short bio and personality reversed, use the swap button below.</p><button id="swap">Swap short bio and personality</button></details>
 </div><div id="pngMode" style="display:none"><section><h2>PNG with JSON</h2><p>Choose a PNG, select a site below, and fill or load your character. This shares your Create JSON draft.</p><label class="filebutton">Choose PNG<input id="pngInput" type="file" accept="image/png,.png"></label><p id="pngStatus" role="status">No PNG selected.</p><img id="pngPreview" alt="Selected PNG" style="display:none;max-width:180px;max-height:180px"><button id="pngExport" class="primary">Download PNG with JSON</button></section><div id="pngEditor"></div></div></main><script>
 'use strict';
@@ -31,7 +31,14 @@ const sites={
 function encodeCard(input,site){
  const {character_name,...d}=input;
  if(site==='spicychat')return {name:character_name||'',title:d.name,description:d.personality,personality:'',first_mes:d.first_mes,scenario:d.scenario,mes_example:d.mes_example,extensions:{forbidden_bot_studio:{mapping:'spicychat',version:1}}};
- if(site==='lil')return {char_name:d.name,char_intro:d.description,char_persona:d.personality,char_greeting:d.first_mes,world_scenario:d.scenario,example_dialogue:d.mes_example};
+ if(site==='lil')return {
+  name:d.name,description:d.personality,personality:'',
+  first_mes:d.first_mes,scenario:d.scenario,mes_example:d.mes_example,
+  char_name:d.name,char_intro:d.description,char_persona:d.personality,
+  char_greeting:d.first_mes,world_scenario:d.scenario,example_dialogue:d.mes_example,
+  creator_notes:d.description,
+  extensions:{forbidden_bot_studio:{mapping:'lil',version:2}}
+ };
  if(['crushon','craveu'].includes(site))return {...d,description:d.personality,personality:d.description,mes_example:'',extensions:{forbidden_bot_studio:{mapping:site,version:1}}};
  return {...d,extensions:{forbidden_bot_studio:{mapping:'lusychat',version:1}}};
 }
