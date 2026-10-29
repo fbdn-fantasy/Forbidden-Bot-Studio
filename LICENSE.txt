@@ -1,0 +1,37 @@
+# Forbidden Bot Studio - Non-Commercial Sharing License
+
+Version 1.0
+
+Copyright © 2026 ForbiddenFantasy. All rights reserved except as expressly permitted below.
+
+## 1. Permission
+
+You may download, install, run, and use Forbidden Bot Studio free of charge.
+
+You may share and redistribute unmodified copies of the application for free, provided that the original copyright notice, attribution, and license remain included.
+
+## 2. Restrictions
+
+Without prior written permission from ForbiddenFantasy, you may not:
+
+- Sell, rent, sublicense, or charge for access to Forbidden Bot Studio.
+- Include the application in paid software bundles or commercial services.
+- Redistribute modified versions of the application.
+- Remove or alter copyright notices or claim ownership of the application.
+- Commercially exploit the application's source code.
+
+## 3. User-Created Content
+
+All original characters, bots, stories, and other content created using Forbidden Bot Studio remain the property of their respective creators.
+
+Users are free to distribute, publish, or monetize their own creations, subject to applicable laws and third-party rights.
+
+## 4. Disclaimer
+
+Forbidden Bot Studio is provided "AS IS", without warranties of any kind, express or implied, to the extent permitted by applicable law.
+
+The copyright holder is not responsible for damages arising from the use of the application, to the extent permitted by applicable law.
+
+## 5. Additional Permissions
+
+For commercial licensing or permission to redistribute modified versions, contact ForbiddenFantasy to request written authorization.

@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Forbidden Bot Studio · Unified</title><style>
+:root{color-scheme:dark;--bg:#110e18;--panel:#1d1829;--line:#3c3050;--muted:#b8abc9;--accent:#c298ff}*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at top right,#332045 0,transparent 55%),var(--bg);color:#f5efff;font:16px/1.6 system-ui,sans-serif}main{max-width:1050px;margin:auto;padding:38px 24px 80px}header{margin-bottom:28px}.eyebrow{color:var(--accent);letter-spacing:.18em;font-size:12px;font-weight:700}h1{font-size:36px;line-height:1.2;margin:10px 0}p{color:var(--muted);margin:8px 0}.toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;padding:18px;background:var(--panel);border:1px solid var(--line);border-radius:16px;margin:20px 0}button,.filebutton{border:1px solid #5c4778;border-radius:9px;background:#30243e;color:#fff;padding:11px 16px;cursor:pointer;font:600 14px system-ui}button:hover,.filebutton:hover{background:#49335e}button:focus-visible,input:focus-visible,textarea:focus-visible,summary:focus-visible{outline:2px solid var(--accent);outline-offset:3px}.primary{background:#bb8eee;color:#1d102d;border-color:#bb8eee}.primary:hover{background:#d0adff}.status{font-size:13px;color:var(--muted);min-height:24px}section{background:var(--panel);border:1px solid var(--line);border-radius:15px;padding:20px;margin-bottom:16px}.labelrow{flex-wrap:wrap;display:flex;justify-content:space-between;gap:15px;align-items:baseline;margin-bottom:10px}label{font-weight:650}.count{font-size:12px;color:var(--muted);white-space:nowrap}input[type=text],textarea{display:block;width:100%;border:1px solid var(--line);border-radius:9px;background:#130f1c;color:#f5efff;padding:14px;font:15px/1.65 system-ui}textarea{resize:vertical;min-height:150px}#personality{min-height:290px}#first_mes{min-height:230px}.hint{font-size:13px}.footer{display:flex;justify-content:space-between;gap:15px;align-items:center;flex-wrap:wrap}details{border:1px solid var(--line);border-radius:12px;padding:15px 20px;margin:20px 0;color:var(--muted)}summary{cursor:pointer;color:#eee}pre{overflow:auto;white-space:pre-wrap;overflow-wrap:anywhere;font-size:12px;max-height:360px}input[type=file]{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}.filebutton:focus-within{outline:2px solid var(--accent)}@media(max-width:600px){main{padding:24px 14px}h1{font-size:28px}section{padding:15px}.labelrow{flex-wrap:wrap;gap:2px}}
+select{background:#30243e;color:#fff;border:1px solid #5c4778;border-radius:9px;padding:10px;font:14px system-ui;max-width:100%}select:focus-visible{outline:2px solid var(--accent);outline-offset:3px}.count{white-space:normal}
+.export-controls{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.totals{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-top:20px}.totals section{text-align:center}.totals p[id]{color:#f5efff;font-weight:600}.footer{justify-content:flex-end}@media(max-width:600px){.totals{grid-template-columns:1fr}}
+.site-switch{display:flex;gap:10px;flex-wrap:wrap;margin:20px 0}.site-switch button.active{background:#bb8eee;color:#1d102d;border-color:#bb8eee}button:disabled{opacity:.45;cursor:not-allowed}.mode-switch{display:flex;gap:10px;flex-wrap:wrap;margin:20px 0}.mode-switch button.active{background:#bb8eee;color:#1d102d}button:disabled{opacity:.45;cursor:not-allowed}</style></head><body><main>
+<header><div class="eyebrow">FORBIDDEN FANTASY · CREATOR TOOLS</div><h1>Bot Studio · Unified</h1><p>Your characters. Your words. Ready to export.</p><p class="hint">Offline editor · No account needed · No text sent anywhere</p></header>
+<div class="mode-switch"><button id="modeJson" class="active">Create JSON</button><button id="modePng">PNG with JSON</button></div><div id="jsonMode"><div class="site-switch" role="group" aria-label="Export destination"><button id="siteLusy" class="active">LusyChat</button><button id="siteLil">LiL</button><button id="siteSpicy">SpicyChat</button><button id="siteCO">CrushOn</button><button id="siteCrave">CraveU</button></div>
+<div class="toolbar"><label class="filebutton">Load JSON / draft<input id="load" type="file" accept=".json,application/json"></label><button id="save">Save draft</button><button id="clear">New character</button></div>
+<div class="status" id="status" role="status" aria-live="polite">Ready. Save a draft file to keep a portable backup.</div>
+<form id="editor" autocomplete="off"></form>
+<div class="totals"><section><div class="eyebrow">OVERALL COUNT</div><p id="total"></p><p class="hint">Sections exported to the selected site</p></section><section><div class="eyebrow">ACTIVE CONTEXT COUNT</div><p id="activeTotal"></p><p class="hint">Name, Greeting, Personality, Scenario and Example Conversations</p></section></div><div class="footer"><div class="export-controls"><button class="primary" id="exportBottom">Generate .json</button></div></div><p class="hint" id="siteNote"></p>
+<details><summary>Export details &amp; JSON preview</summary><p class="hint">LiL uses char_intro for short bio and char_persona for personality. LusyChat: short bio → description; personality → personality. CrushOn / CraveU: introduction → personality; personality → description. CrushOn and CraveU hide Example Conversations and export an empty example field. Changing the destination preserves your editor text. Over-limit fields block export until shortened. Token counts are rough estimates using a character/word formula, not an exact model tokenizer. Totals include the selected site’s supported fields; sites may send different content to their AI.</p><pre id="preview"></pre></details>
+<details><summary>Using this app</summary><p>Open this HTML file in your browser, enter your character, then choose Generate .json. Upload the downloaded JSON to your bot site's character importer.</p><p>The current draft is automatically saved in this browser when storage is available. Moving the HTML file, changing browsers or clearing browser data can lose that copy. Use Save draft for a reliable file backup.</p><p>JSON imports detect this app’s mapping marker, known filename suffixes and legacy fields automatically. Unmarked files default to LusyChat mapping; always check the loaded introduction and personality. Draft files from either older generator load correctly regardless of source. Load JSON / draft accepts flat character JSON and V2-style cards. Imported files only load the six editor fields; other metadata is not retained. If an old export has the short bio and personality reversed, use the swap button below.</p><button id="swap">Swap short bio and personality</button></details>
+</div><div id="pngMode" style="display:none"><section><h2>PNG with JSON</h2><p>Choose a PNG, select a site below, and fill or load your character. This shares your Create JSON draft.</p><label class="filebutton">Choose PNG<input id="pngInput" type="file" accept="image/png,.png"></label><p id="pngStatus" role="status">No PNG selected.</p><img id="pngPreview" alt="Selected PNG" style="display:none;max-width:180px;max-height:180px"><button id="pngExport" class="primary">Download PNG with JSON</button></section><div id="pngEditor"></div></div></main><script>
+'use strict';
+const fields=[['name','Name','Your character’s name'],['description','Short bio / Introduction','The public introduction or short bio'],['first_mes','Greeting / First message','The message that opens the conversation'],['personality','Personality','The full character definition, including appearance, background and behavior'],['scenario','Scenario','Setting, context and situation'],['character_name','Character Name','The name the character responds to'],['mes_example','Example Conversations','Example dialogue using {{user}} and {{char}}']];
+const $=id=>document.getElementById(id);const storageKey='forbidden-bot-studio-unified-v1';let dirty=false;let timer;
+for(const [key,label,placeholder] of fields){const section=document.createElement('section');const row=document.createElement('div');row.className='labelrow';const lab=document.createElement('label');lab.htmlFor=key;lab.textContent=label;const count=document.createElement('span');count.className='count';count.id=key+'Count';row.append(lab,count);const input=document.createElement(key==='name'?'input':'textarea');if(key==='name')input.type='text';input.id=key;input.placeholder=placeholder;section.append(row,input);$('editor').append(section);}
+function values(){return Object.fromEntries(fields.map(([key])=>[key,$(key).value]));}
+function message(text){$('status').textContent=text;}
+let currentSite = "lusychat";
+const sites={
+ spicychat:{label:'SpicyChat',limits:[100,0,2000,5000,4000,20,4000]},
+ lusychat:{label:'LusyChat',limits:[40,12000,30000,10000,10000,0,10000]},
+ lil:{label:'LiL',limits:[30,500,5000,20000,6000,0,6000]},
+ crushon:{label:'CrushOn',limits:[40,16000,16000,16000,16000,0,0]},
+ craveu:{label:'CraveU',limits:[80,16000,20000,20000,20000,0,0]}
+};
+function encodeCard(input,site){
+ const {character_name,...d}=input;
+ if(site==='spicychat')return {name:character_name||'',title:d.name,description:d.personality,personality:'',first_mes:d.first_mes,scenario:d.scenario,mes_example:d.mes_example,extensions:{forbidden_bot_studio:{mapping:'spicychat',version:1}}};
+ if(site==='lil')return {char_name:d.name,char_intro:d.description,char_persona:d.personality,char_greeting:d.first_mes,world_scenario:d.scenario,example_dialogue:d.mes_example};
+ if(['crushon','craveu'].includes(site))return {...d,description:d.personality,personality:d.description,mes_example:'',extensions:{forbidden_bot_studio:{mapping:site,version:1}}};
+ return {...d,extensions:{forbidden_bot_studio:{mapping:'lusychat',version:1}}};
+}
+function exportValues(){return encodeCard(values(),currentSite);}
+function limitErrors(d,site){return fields.flatMap(([key,label],i)=>{const max=sites[site].limits[i],n=Array.from(d[key]||'').length;return max&&n>max?[label+': '+n.toLocaleString()+' / '+max.toLocaleString()]:[];});}
+function draft(){return {format:'forbidden-bot-studio',version:1,target:currentSite,fields:values()};}
+function estimateTokens(text){const chars=text.length,trimmed=text.trim(),words=trimmed?trimmed.split(/\s+/).length:0;const symbols=(text.match(/[^\p{L}\p{N}\s]/gu)||[]).length;const ratio=chars?symbols/chars:0;const byChars=chars/(3.8-Math.min(ratio*4,0.8)),byWords=words*1.35;return {estimate:Math.round((byChars+byWords)/2),low:Math.round(Math.min(byChars,byWords)),high:Math.round(Math.max(byChars,byWords))};}
+function refresh(){
+ let total=0,tokens=0,activeChars=0,activeTokens=0;
+ fields.forEach(([key],i)=>{
+  const el=$(key),max=sites[currentSite].limits[i],n=Array.from(el.value).length,r=estimateTokens(el.value);
+  el.closest('section').style.display=max?'':'none';
+  el.setAttribute('aria-invalid',String(!!max&&n>max));
+  el.setCustomValidity(max&&n>max?'Over the '+max+' character limit.':'');
+  $(key+'Count').textContent=n.toLocaleString()+' / '+max.toLocaleString()+' characters · ≈ '+r.estimate.toLocaleString()+' tokens';
+  $(key+'Count').style.color=max&&n>max?'#ff8c9c':'';
+  if(max){total+=n;tokens+=r.estimate;if(key!=='description'){activeChars+=n;activeTokens+=r.estimate;}}
+ });
+ document.querySelector('label[for="name"]').textContent=currentSite==='spicychat'?'Title':'Name';
+ document.querySelector('label[for="description"]').textContent=['crushon','craveu'].includes(currentSite)?'Introduction':'Short Bio';
+ $('total').textContent=total.toLocaleString()+' characters · ≈ '+tokens.toLocaleString()+' tokens';
+ $('activeTotal').textContent=activeChars.toLocaleString()+' characters · ≈ '+activeTokens.toLocaleString()+' tokens';
+ const errors=limitErrors(values(),currentSite);
+ $('exportBottom').disabled=errors.length>0;
+ $('preview').textContent=JSON.stringify(exportValues(),null,2);
+ $('siteNote').textContent=sites[currentSite].label+' selected. '+(errors.length?'Export blocked. Over limit: '+errors.join('; '):'Limits enforced. Existing text is preserved when switching sites.');
+}
+// site handled by buttons
+function persist(){try{localStorage.setItem(storageKey,JSON.stringify(draft()));message('Draft autosaved in this browser. Save draft for a file backup.');}catch{message('Browser autosave unavailable. Use Save draft to keep your work.');}}
+function changed(){dirty=true;refresh();clearTimeout(timer);timer=setTimeout(persist,400);}
+$('editor').addEventListener('input',changed);$('editor').addEventListener('submit',e=>e.preventDefault());
+function filename(){return (values().name.trim().replace(/[<>:"/\\|?*\u0000-\u001f]/g,'-').replace(/[. ]+$/g,'').slice(0,100)||'character');}
+function download(obj,suffix){const url=URL.createObjectURL(new Blob([JSON.stringify(obj,null,2)],{type:'application/json;charset=utf-8'}));const a=document.createElement('a');a.href=url;a.download=filename()+suffix+'.json';document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),10000);dirty=false;message('Download requested: '+filename()+suffix+'.json');}
+function exportCard(){if(currentSite==='spicychat'&&!values().character_name.trim()){message('Enter the character name before exporting.');$('character_name').focus();return;}if(limitErrors(values(),currentSite).length){refresh();return;}if(!values().name.trim()){message('Enter a character name before exporting.');$('name').focus();return;}download(exportValues(), '-'+currentSite);}
+$('exportBottom').onclick=exportCard;
+$('save').onclick=()=>download(draft(),'.draft');
+function fill(data){for(const [key] of fields)$(key).value=data[key]??'';refresh();}
+$('clear').onclick=()=>{if(fields.some(([k])=>$(k).value)&&!confirm('Clear the current character? Save a draft first if you want to keep it.'))return;fill({});dirty=false;clearTimeout(timer);persist();$('name').focus();};
+$('swap').onclick=()=>{const bio=$('description').value;$('description').value=$('personality').value;$('personality').value=bio;changed();};
+function normalizeTarget(t){return t==='co-cu'?'crushon':Object.hasOwn(sites,t)?t:null;}
+function detectImport(raw,filename=''){
+ if(raw.format==='forbidden-bot-studio')return {target:normalizeTarget(raw.target)||'lusychat',note:'Draft fields restored.'};
+ const d=raw.data&&typeof raw.data==='object'?raw.data:raw;
+ if(typeof d.title==='string'&&typeof d.name==='string')return {target:'spicychat',note:'Separate SpicyChat title and name detected.'};
+ const marker=normalizeTarget(d.extensions?.forbidden_bot_studio?.mapping);
+ if(marker)return {target:marker,note:'Export mapping detected from file marker.'};
+ if('char_intro' in d&&'char_persona' in d)return {target:'lil',note:'LiL native fields detected.'};
+ const suffix=filename.match(/[.-](lusychat|lil|spicychat|crushon|craveu|crushon-craveu|co-cu)\.json$/i);
+ if(suffix)return {target:normalizeTarget(suffix[1].toLowerCase())||'crushon',note:'Mapping detected from filename.'};
+ return {target:'lusychat',note:'Unmarked JSON assumed to use LusyChat mapping. Check Short Bio and Personality; use Swap if needed.'};
+}
+function parseImport(raw,filename='',sourceOverride){
+ if(!raw||typeof raw!=='object'||Array.isArray(raw))throw Error('Expected a JSON character object.');
+ const isDraft=raw.format==='forbidden-bot-studio';
+ if(isDraft&&raw.version!==1)throw Error('Unsupported draft version.');
+ const d=isDraft?raw.fields:raw.data&&typeof raw.data==='object'?raw.data:raw;
+ if(!d||typeof d!=='object'||Array.isArray(d))throw Error('Invalid character fields.');
+ const aliases={name:'char_name',description:'char_intro',first_mes:'char_greeting',personality:'char_persona',scenario:'world_scenario',mes_example:'example_dialogue'};
+ if(!fields.some(([k])=>k in d||aliases[k] in d))throw Error('No supported character fields found.');
+ const source=sourceOverride||detectImport(raw,filename).target,result={};
+ for(const [key]of fields){
+  let value;
+  if(isDraft)value=d[key];
+  else if(source==='spicychat')value=key==='name'?d.title:key==='character_name'?d.name:key==='description'?'':d[key==='personality'?'description':key];
+  else if(key==='character_name')value='';
+  else if(source==='lil')value=d[aliases[key]]??d[key==='description'?'personality':key==='personality'?'description':key];
+  else if(['crushon','craveu'].includes(source))value=d[key==='description'?'personality':key==='personality'?'description':key]??d[aliases[key]];
+  else value=d[key]??d[aliases[key]];
+  value=value??'';if(typeof value!=='string')throw Error('The '+key+' field must be text.');result[key]=value;
+ }return result;
+}
+$('load').onchange=async e=>{const file=e.target.files[0];if(!file)return;try{const raw=JSON.parse(await file.text());const next=parseImport(raw,file.name);const detected=detectImport(raw,file.name);if(fields.some(([k])=>$(k).value)&&!confirm('Replace the current editor contents with this file?'))return;// Only switch away from LusyChat if the file has a clear CO marker or filename
+setSite(detected.target);
+  fill(next);dirty=true;clearTimeout(timer);persist();message('Loaded '+file.name+'. '+detected.note);}catch(err){message('Could not load file: '+err.message);}finally{e.target.value='';}};
+try{const saved=localStorage.getItem(storageKey);if(saved){const raw=JSON.parse(saved);if(normalizeTarget(raw.target))setSite(normalizeTarget(raw.target));fill(parseImport(raw));message('Restored your last browser draft.');}}catch{message('Could not restore browser draft. You can load a saved draft file.');}refresh();
+window.addEventListener('beforeunload',e=>{if(dirty){e.preventDefault();e.returnValue='';}});
+
+
+function setSite(site){
+ currentSite=normalizeTarget(site)||'lusychat';
+ for(const [id,target]of [['siteLusy','lusychat'],['siteLil','lil'],['siteSpicy','spicychat'],['siteCO','crushon'],['siteCrave','craveu']])$(id).classList.toggle('active',currentSite===target);
+ refresh();
+}
+for(const [id,target]of [['siteLusy','lusychat'],['siteLil','lil'],['siteSpicy','spicychat'],['siteCO','crushon'],['siteCrave','craveu']])$(id).onclick=()=>{setSite(target);changed();};
+// Reject additions beyond the cap; never truncate imported or existing text.
+for(const [key,,]of fields){
+ const el=$(key);let previous=el.value;
+ el.addEventListener('beforeinput',()=>{previous=el.value;});
+ el.addEventListener('input',()=>{
+  const max=sites[currentSite].limits[fields.findIndex(([k])=>k===key)];
+  if(max&&Array.from(el.value).length>max&&Array.from(el.value).length>Array.from(previous).length){el.value=previous;message('Character limit reached. Extra text was not inserted.');}
+  previous=el.value;
+ });
+}
+setSite(currentSite);
+
+
+function showMode(which){$('jsonMode').style.display=which==='modeJson'?'block':'none';}
+// PNG text metadata: UTF-8 JSON encoded as base64 in a chara tEXt chunk.
+function pngCRC(bytes){let c=0xffffffff;for(const b of bytes){c^=b;for(let k=0;k<8;k++)c=(c>>>1)^((c&1)?0xedb88320:0);}return (c^0xffffffff)>>>0;}
+function pngParts(bytes){
+ const sig=[137,80,78,71,13,10,26,10];if(sig.some((x,i)=>bytes[i]!==x))throw Error('Select a valid PNG image.');
+ const out=[];let pos=8,ended=false;
+ while(pos<bytes.length){if(pos+12>bytes.length)throw Error('Truncated PNG.');const view=new DataView(bytes.buffer,bytes.byteOffset+pos),len=view.getUint32(0);if(pos+12+len>bytes.length)throw Error('Invalid PNG chunk length.');
+ const type=String.fromCharCode(...bytes.slice(pos+4,pos+8));const chunk=bytes.slice(pos,pos+12+len);if(pngCRC(chunk.slice(4,8+len))!==view.getUint32(8+len))throw Error('PNG checksum failed.');out.push({type,chunk,data:chunk.slice(8,8+len)});pos+=12+len;if(type==='IEND'){ended=true;break;}}
+ if(!ended||out[0]?.type!=='IHDR'||!out.some(x=>x.type==='IDAT'))throw Error('Incomplete PNG.');return out;
+}
+function embedPNG(bytes,card){
+ const parts=pngParts(bytes),utf8=new TextEncoder().encode(JSON.stringify(card));let binary='';for(const b of utf8)binary+=String.fromCharCode(b);
+ const data=new TextEncoder().encode('chara\0'+btoa(binary)),chunk=new Uint8Array(data.length+12),view=new DataView(chunk.buffer);view.setUint32(0,data.length);chunk.set([116,69,88,116],4);chunk.set(data,8);view.setUint32(8+data.length,pngCRC(chunk.slice(4,8+data.length)));
+ const kept=[bytes.slice(0,8)];for(const p of parts){const zero=p.data.indexOf(0),key=zero<0?'':new TextDecoder().decode(p.data.slice(0,zero));if(['tEXt','iTXt','zTXt'].includes(p.type)&&['chara','ccv3'].includes(key))continue;if(p.type==='IEND')kept.push(chunk);kept.push(p.chunk);}
+ const result=new Uint8Array(kept.reduce((n,b)=>n+b.length,0));let offset=0;for(const b of kept){result.set(b,offset);offset+=b.length;}return result;
+}
+let pngBytes=null,pngPreviewURL=null;
+$('pngInput').onchange=async e=>{pngBytes=null;if(pngPreviewURL)URL.revokeObjectURL(pngPreviewURL);$('pngPreview').style.display='none';const file=e.target.files[0];if(!file)return;try{const bytes=new Uint8Array(await file.arrayBuffer());pngParts(bytes);pngBytes=bytes;pngPreviewURL=URL.createObjectURL(new Blob([bytes],{type:'image/png'}));$('pngPreview').src=pngPreviewURL;$('pngPreview').style.display='block';$('pngStatus').textContent='Selected: '+file.name;}catch(err){$('pngStatus').textContent=err.message;}};
+$('pngExport').onclick=()=>{try{if(!pngBytes)throw Error('Choose a PNG first.');const d=values(),errors=limitErrors(d,currentSite);if(errors.length)throw Error('Over limit: '+errors.join('; '));if(!d.name.trim())throw Error('Enter a name or title.');if(currentSite==='spicychat'&&!d.character_name.trim())throw Error('Enter the separate character name.');const bytes=embedPNG(pngBytes,exportValues()),url=URL.createObjectURL(new Blob([bytes],{type:'image/png'})),a=document.createElement('a');a.href=url;a.download=filename()+'-'+currentSite+'.png';a.click();setTimeout(()=>URL.revokeObjectURL(url),10000);$('pngStatus').textContent='PNG download requested for '+sites[currentSite].label+'.';}catch(err){$('pngStatus').textContent=err.message;}};
+const jsonHome=document.createComment('JSON editor home');$('jsonMode').before(jsonHome);
+const originalShowMode=showMode;
+showMode=function(which){
+ jsonHome.after($('jsonMode'));originalShowMode(which==='modePng'?'modeJson':which);
+ $('pngMode').style.display=which==='modePng'?'block':'none';
+ if(which==='modePng'){$('pngEditor').append($('jsonMode'));$('jsonMode').style.display='block';}
+ $('modePng').classList.toggle('active',which==='modePng');$('modeJson').classList.toggle('active',which==='modeJson');
+};
+$('modePng').onclick=()=>showMode('modePng');$('modeJson').onclick=()=>showMode('modeJson');
+
+</script></body></html>

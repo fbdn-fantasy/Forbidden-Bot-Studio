@@ -1,0 +1,100 @@
+FORBIDDEN BOT STUDIO - FREE VERSION
+HOW TO USE
+
+GETTING STARTED
+1. Download Forbidden-Bot-Studio-Free-V4.html.
+2. Open the HTML file in your web browser. If needed, right-click it and
+   choose Open with, then select your browser.
+3. No installation or account is needed. Editing and exporting run locally
+   in your browser and work offline.
+
+CREATE A JSON FILE
+1. Open the Create JSON tab.
+2. Choose your destination: LusyChat, LiL, SpicyChat, CrushOn or CraveU.
+3. Fill in the fields shown for that site.
+4. Check the character counters and any limit messages.
+5. Click Generate .json to download your character file.
+6. Use the destination site's character import option to upload it.
+
+SITE DIFFERENCES
+- LusyChat and LiL include Short Bio and Example Conversations.
+- CrushOn and CraveU use Introduction. Example Conversations is hidden
+  and exported as an empty field.
+- SpicyChat has separate Title and Character Name fields, with no Short Bio.
+  Example: Title = Lufas | A Wild Boss; Character Name = Lufas.
+- The app applies the selected site's JSON mapping automatically.
+- Switching sites preserves your editor text, including hidden fields.
+  Hidden fields are not counted toward that site's displayed totals.
+
+CHARACTER LIMITS
+LusyChat:
+  Name 40; Short Bio 12,000; Greeting 30,000; Personality 10,000;
+  Scenario 10,000; Example Conversations 10,000.
+LiL:
+  Name 30; Short Bio 500; Greeting 5,000; Personality 20,000;
+  Scenario 6,000; Example Conversations 6,000.
+SpicyChat:
+  Character Name 20; Title 100; Greeting 2,000; Personality 5,000;
+  Scenario 4,000; Example Conversations 4,000.
+CrushOn:
+  Name 40; Introduction 16,000; Greeting 16,000; Personality 16,000;
+  Scenario 16,000. No Example Conversations.
+CraveU:
+  Name 80; Introduction 16,000; Greeting 20,000; Personality 20,000;
+  Scenario 20,000. No Example Conversations.
+
+Typing or pasting that would add text beyond a field's limit is rejected.
+If importing a file or switching sites leaves a field over its limit, the
+existing text is kept. Shorten it before exporting. Token counts are estimates.
+
+CREATE A PNG WITH CHARACTER JSON
+1. Open PNG with JSON.
+2. Click Choose PNG and select a PNG image from your device.
+3. Choose the destination site and fill in or load your character details.
+   This tab shares the same draft as Create JSON.
+4. Click Download PNG with JSON.
+5. Upload the downloaded PNG wherever character-card PNG imports are supported.
+
+The character JSON is stored inside the PNG's metadata. The image data is
+preserved. PNG export uses the same site mapping and limits as JSON export.
+JPG and WebP files are not accepted here; renaming an extension does not
+convert an image into a PNG. Site support for the embedded JSON may vary.
+Editing or re-exporting the PNG through another image app may remove metadata.
+
+LOAD AN EXISTING CHARACTER
+1. Click Load JSON / draft and select a .json file.
+2. Confirm replacement if you already have text in the editor.
+3. Check the selected site and the loaded fields before exporting.
+
+The app recognizes its own export markers and supported legacy fields.
+Unmarked files default to LusyChat mapping, so check Short Bio/Introduction
+and Personality. Use Swap short bio and personality if those are reversed.
+Only supported editor fields are loaded; other imported metadata is not retained.
+The loader accepts JSON and draft files, not embedded PNG character cards.
+
+SAVE YOUR WORK
+- Save draft downloads an editable backup containing your editor fields.
+  Use Load JSON / draft to restore it later.
+- The app also attempts to autosave your draft in the current browser.
+- Browser autosave is not a portable backup. Moving the HTML file, changing
+  browsers or clearing browser data can make that saved draft unavailable.
+- Use New character to clear the editor. Save a draft first if needed.
+
+EXPORT FOR ANOTHER SITE
+Load your JSON or draft, select another site, check the fields and limits,
+then generate a new file. For SpicyChat, enter its separate Character Name.
+The free version does not have a dedicated Conversion tab or HTML tools.
+
+PRIVACY
+Character text is processed locally by this app. Sharing the HTML app file
+alone does not include your browser-saved draft. Exported JSON, drafts and
+character-card PNGs do contain character information, so check them before sharing.
+
+QUICK TROUBLESHOOTING
+- Generate .json is disabled: check for fields over the selected site's limits.
+- Nothing exports: enter a name/title and, for SpicyChat, a Character Name.
+- PNG export fails: select a valid PNG and check the character limits.
+- Fields imported incorrectly: check the destination and use the swap button
+  if the short bio and personality are reversed.
+- A site rejects a PNG: try exporting JSON for that site instead.
+- The app opens as code: save the HTML file and open it with a web browser.
