@@ -42,10 +42,6 @@ See **[Guide.txt](Guide.txt)** for step-by-step instructions, site-specific char
 
 Character text is processed locally by the app. Sharing the HTML application does not include your browser-saved draft. **Exported JSON files, drafts and PNG character cards do contain character data**, so review them before sharing.
 
-## License and redistribution
+## License
 
-**Copyright © 2026 ForbiddenFantasy. All rights reserved except as expressly permitted in the [LICENSE](LICENSE).**
-
-You may use and share the application for free, including redistributing unchanged copies with the copyright notice and license intact. **Selling the application, charging for access to it, or otherwise using the application commercially requires prior written permission.** See the LICENSE file for the full terms.
-
-This project is **source-available, not OSI-approved open source**, because its license restricts commercial use.
+**GNU AGPL 3.0**
